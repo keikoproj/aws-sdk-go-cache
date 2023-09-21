@@ -15,7 +15,7 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.9.1 // indirect
 	github.com/prometheus/procfs v0.0.8 // indirect
-	golang.org/x/sys v0.0.0-20190422165155-953cdadca894 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 )
 
 go 1.19
