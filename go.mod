@@ -4,7 +4,7 @@ go 1.24
 
 require (
 	github.com/aws/aws-sdk-go v1.55.7
-	github.com/golang/glog v1.2.4
+	github.com/golang/glog v1.2.5
 	github.com/karlseguin/ccache/v2 v2.0.8
 	github.com/prometheus/client_golang v1.22.0
 )
