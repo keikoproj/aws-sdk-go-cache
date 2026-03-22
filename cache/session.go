@@ -3,7 +3,7 @@ package cache
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -24,7 +24,7 @@ type cacheObj struct {
 func (c *cacheObj) copy() *http.Response {
 	r := &http.Response{}
 	*r = *c.r
-	r.Body = ioutil.NopCloser(bytes.NewBuffer(c.content))
+	r.Body = io.NopCloser(bytes.NewBuffer(c.content))
 	return r
 }
 
@@ -64,12 +64,12 @@ func AddCaching(s *session.Session, cacheConfig *Config) {
 		if !IsCacheHit(r.HTTPRequest.Context()) {
 			cacheConfig.incMiss(r)
 
-			content, err := ioutil.ReadAll(r.HTTPResponse.Body)
+			content, err := io.ReadAll(r.HTTPResponse.Body)
 			if err != nil {
 				glog.Errorf("Error fetching response body: %v", err)
 				return
 			}
-			r.HTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(content))
+			r.HTTPResponse.Body = io.NopCloser(bytes.NewBuffer(content))
 
 			r.HTTPRequest = r.HTTPRequest.WithContext(context.WithValue(r.HTTPRequest.Context(), cacheObjectContextKey, &cacheObj{
 				r:       r.HTTPResponse,

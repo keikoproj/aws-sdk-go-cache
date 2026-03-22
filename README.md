@@ -4,6 +4,8 @@
 [![Build Status][BuildStatusImg]][BuildMasterUrl]
 [![codecov][CodecovImg]][CodecovUrl]
 
+> **Note:** This library wraps [AWS SDK for Go v1](https://github.com/aws/aws-sdk-go), which reached end-of-support on July 31, 2025 and will not receive further security or feature updates from AWS. A future **v0.2.0** release will target [AWS SDK for Go v2](https://github.com/aws/aws-sdk-go-v2), which has a different middleware architecture.
+
 This package provides a caching layer for the AWS SDK for Go. It is designed to be used as a drop-in replacement for the AWS SDK for Go. It was forked from [ticketmaster/aws-sdk-go-cache](https://github.com/ticketmaster/aws-sdk-go-cache).
 
 
