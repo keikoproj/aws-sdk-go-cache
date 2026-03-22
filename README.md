@@ -1,12 +1,42 @@
 # aws-sdk-go-cache
 
+> **DEPRECATED — This library is no longer maintained and will not receive any further updates.** There will be no v0.2.0 release. Users should migrate to [AWS SDK for Go v2](https://github.com/aws/aws-sdk-go-v2) and rely on its built-in retry and rate-limiting capabilities instead (see [Migration Guide](#migration-guide) below).
+
 [![Go Report Card][GoReportImg]][GoReportUrl]
 [![Build Status][BuildStatusImg]][BuildMasterUrl]
 [![codecov][CodecovImg]][CodecovUrl]
 
-> **Note:** This library wraps [AWS SDK for Go v1](https://github.com/aws/aws-sdk-go), which reached end-of-support on July 31, 2025 and will not receive further security or feature updates from AWS. A future **v0.2.0** release will target [AWS SDK for Go v2](https://github.com/aws/aws-sdk-go-v2), which has a different middleware architecture.
+This package provided a response-caching layer for [AWS SDK for Go v1](https://github.com/aws/aws-sdk-go), which reached end-of-support on July 31, 2025. It was forked from [ticketmaster/aws-sdk-go-cache](https://github.com/ticketmaster/aws-sdk-go-cache).
 
-This package provides a caching layer for the AWS SDK for Go. It is designed to be used as a drop-in replacement for the AWS SDK for Go. It was forked from [ticketmaster/aws-sdk-go-cache](https://github.com/ticketmaster/aws-sdk-go-cache).
+## Migration Guide
+
+This library was originally built to mitigate AWS API rate limiting (throttling) by caching read-only API responses. AWS SDK for Go v2 significantly reduces the need for client-side response caching:
+
+### AWS SDK v2 Built-in Rate Limiting
+
+**Standard Retry Mode** (enabled by default):
+- Token-bucket rate limiter (500 tokens) that automatically throttles requests when errors are detected
+- Exponential backoff with jitter between retry attempts
+- 3 retry attempts by default, configurable up to any number
+- Safe for multi-tenant applications
+
+**Adaptive Retry Mode** (opt-in):
+- Dynamically adjusts client-side request rate based on throttle responses from AWS
+- Automatically restricts attempt rate when throttling is detected
+- Expands on standard mode with a second token bucket for request rate limiting
+
+### Recommended Approach
+
+1. **Remove this library** and migrate to AWS SDK for Go v2
+2. **Use standard retry mode** (the default) — no extra configuration needed
+3. **For truly stable data** (e.g., `DescribeInstanceTypes` which rarely changes), use a simple `sync.Once` or package-level cache variable rather than a full caching library
+4. **If you need custom response caching**, AWS SDK v2's [middleware framework](https://aws.github.io/aws-sdk-go-v2/docs/middleware/) makes it straightforward to add a caching layer without a dedicated library
+
+### References
+
+- [AWS SDK for Go v2 — Retries and Timeouts](https://aws.github.io/aws-sdk-go-v2/docs/configuring-sdk/retries-timeouts/)
+- [AWS SDK for Go v2 — Migration Guide](https://aws.github.io/aws-sdk-go-v2/docs/migrating/)
+- [AWS SDKs Retry Behavior Reference](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html)
 
 
 <!-- Markdown link -->
