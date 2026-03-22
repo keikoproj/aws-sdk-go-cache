@@ -1,6 +1,6 @@
 module github.com/keikoproj/aws-sdk-go-cache
 
-go 1.24
+go 1.26.0
 
 require (
 	github.com/aws/aws-sdk-go v1.55.8
